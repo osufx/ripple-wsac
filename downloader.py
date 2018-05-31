@@ -1,6 +1,7 @@
 import asyncio
 import aiohttp
 from objects import glob
+from objects.replayparser import Replay
 
 async def fetch_bytes(session, url):
 	async with session.get(url) as r:
@@ -17,4 +18,8 @@ async def get_file_bytes(url):
 async def replay(id):
 	url = glob.config["replay_endpoint"].format(id=id)
 	replay_bytes = await get_file_bytes(url)
-	# TODO: Pass bytes into parser
+
+	replay = Replay(replay_bytes)
+	# TODO: Async
+	# TODO: Download beatmap file
+	# TODO: Run tests on the replay file
