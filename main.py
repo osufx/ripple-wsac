@@ -2,46 +2,39 @@ import asyncio
 import websockets
 import time
 import json
-
-ws = None
+import handler, common
+from objects import glob
+from helpers import packet_type as PacketType
 
 with open("config.json", "r") as f:
 	config = json.load(f)
 
 async def keep_alive_loop():
 	while True:
-		await send_packet("ping")
+		await common.send_packet(PacketType.cli_ping)
 		await asyncio.sleep(10)
 
 async def main_loop():
-	global ws
 	async with websockets.connect(config["server"]) as _ws:
-		ws = _ws # I dont know how to do this any other ways >.>
+		glob.ws = _ws # I dont know how to do this any other ways >.>
 		asyncio.get_event_loop().create_task(keep_alive_loop())
 		while True:
 			try:
-				data = await ws.recv()
-				await handle(data)
+				data = await glob.ws.recv()
+				await receive(data)
 				await asyncio.sleep(0)
 			except Exception as e:
 				print(e)
 
-async def send_packet(p_type, p_data = None):
-	data = {
-		"type": p_type,
-		"data": p_data
-		}
-	await send(json.dumps(data))
-
-async def send(data):
-	if ws is None:
-		print("Websocket connection is empty!")
-		return
-	print("Send > " + data)
-	await ws.send(data)
-
-async def handle(data):
+async def receive(data):
 	print("Recv < " + data)
+	data = json.loads(data)
+
+	# Find matching type and pass data to handler
+	for handle in [x["callback"] for x in handler.handlers if x["type"] == data["type"]]:
+		data.setdefault("data", None)
+		await handle(data["data"])
+
 
 asyncio.get_event_loop().run_until_complete(asyncio.wait([
 	main_loop()
