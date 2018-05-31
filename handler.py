@@ -2,7 +2,7 @@ import common
 from helpers import packet_type as PacketType
 
 async def onConnect(data):
-	await common.send_packet("subscribe_scores", [])
+	await common.send_packet(PacketType.cli_subscribe, [])
 
 async def onError(data):
 	print("Error: " + data)
