@@ -1,3 +1,4 @@
 {
-	"server": "wss://api.ripple.moe/api/v1/ws"
+	"server": "wss://api.ripple.moe/api/v1/ws",
+	"replay_endpoint": "https://ripple.moe/web/replays/{id}"
 }

@@ -1,3 +1,4 @@
+import os
 import asyncio
 import websockets
 import time
@@ -6,8 +7,14 @@ import handler, common
 from objects import glob
 from helpers import packet_type as PacketType
 
+# Create required paths if needed
+paths = [".data", ".data/replays"]
+for path in paths:
+	if not os.path.exists(path):
+		os.makedirs(path, 0o770)
+
 with open("config.json", "r") as f:
-	config = json.load(f)
+	glob.config = json.load(f)
 
 async def keep_alive_loop():
 	while True:
@@ -15,7 +22,7 @@ async def keep_alive_loop():
 		await asyncio.sleep(10)
 
 async def main_loop():
-	async with websockets.connect(config["server"]) as _ws:
+	async with websockets.connect(glob.config["server"]) as _ws:
 		glob.ws = _ws # I dont know how to do this any other ways >.>
 		asyncio.get_event_loop().create_task(keep_alive_loop())
 		while True:
