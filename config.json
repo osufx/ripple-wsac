@@ -1,4 +1,9 @@
 {
 	"server": "wss://api.ripple.moe/api/v1/ws",
-	"replay_endpoint": "https://ripple.moe/web/replays/{id}"
+	"replay_endpoint": "https://ripple.moe/web/replays/{id}",
+	"cheesegull_api": "https://storage.ripple.moe",
+	"use_getosufile_official" : true,
+	"prefer_cheesegull": true,
+	"osu-api-key": "api-key-here",
+	"quick-note-for-this-file": "THIS CONFIG WILL CHANGE"
 }
