@@ -7,7 +7,7 @@ async def onConnect(data):
 
 async def onScore(data):
 	await downloader.replay(data["id"])
-	# Todo: Runs scanners etc..
+	# TODO: Runs scanners etc..
 
 async def onError(data):
 	print("Error: " + data)
