@@ -2,7 +2,7 @@ import asyncio
 import aiohttp
 from objects import glob
 from objects.replay_parser import Replay
-from objects.beatmap_parser import Beatmap
+from objects.beatmap_parser.osu_parser.beatmap import Beatmap
 import file_manager
 
 async def fetch_bytes(session, url):
@@ -47,5 +47,6 @@ async def beatmap_id(id):
 
 	if not await file_manager.bytes_to_file(".data/beatmaps/{id}.osu".format(id=id), beatmap_bytes):
 		print("Failed to save beatmap id: {id}".format(id=id))
-	
-	return Beatmap(beatmap_bytes) #Dont do anything yet >.>
+	else:
+		return Beatmap(".data/beatmaps/{id}.osu".format(id=id))
+	return False

@@ -9,7 +9,7 @@ BEATMAP_STRUCT = {
 	"mode": ["mode",			"Mode"			]
 }
 
-async def get_beatmaps(type: str, id: int + str, cheesegull: bool = True):
+async def get_beatmaps(type: str, id, cheesegull: bool):
 	if type is "h":
 		cheesegull = False
 
@@ -58,7 +58,7 @@ def _get_beatmaps_s_dict(data: dict, cheesegull: bool):
 	return new_data
 
 def _get_beatmaps_h_dict(data: dict, cheesegull: bool = False):
-	return data # This can only ever be the json format from official since cheesegull dont have this
+	return data_parse(data[0], BEATMAP_STRUCT, False)
 
 def error(*args):
 	print("Lets talk about parallel universes...")

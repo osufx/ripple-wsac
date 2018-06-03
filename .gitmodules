@@ -1,0 +1,3 @@
+[submodule "objects/beatmap_parser"]
+	path = objects/beatmap_parser
+	url = git@github.com:osufx/osu-parser.git

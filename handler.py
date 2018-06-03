@@ -8,10 +8,17 @@ async def onConnect(data):
 	await common.send_packet(PacketType.cli_subscribe, [])
 
 async def onScore(data):
+	# TODO: Do this in a totaly different thread... I am not willing to rewrite this to parse asynchronously
 	replay = await downloader.replay(data["id"])
-
-	beatmap_info = await api.get_beatmaps("h", data["beatmap_md5"], glob.config["prefer_cheesegull"])
+	beatmap_info = await api.get_beatmaps("h", data["beatmap_md5"], glob.config["prefer_cheesegull"]) # will use official because hash isnt valid search for cheesegull
 	beatmap = await downloader.beatmap_id(beatmap_info["id"])
+
+	print("DONE!")
+	print("Username: {}".format(replay.username))
+	print("Beatmap hitobject count: {}".format(len(beatmap.hitobjects)))
+	print("Data-mxcombo: {}".format(data["max_combo"]))
+	print("Replay-mxcombo: {}".format(replay.max_combo)) #This be wrong?
+	print("Beatmap-mxcombo: {}".format(beatmap.max_combo))
 	# TODO: Runs scanners etc..
 
 async def onError(data):
