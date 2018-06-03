@@ -8,7 +8,7 @@ from objects import glob
 from helpers import packet_type as PacketType
 
 # Create required paths if needed
-paths = [".data", ".data/replays"]
+paths = [".data", ".data/replays", ".data/beatmaps"]
 for path in paths:
 	if not os.path.exists(path):
 		os.makedirs(path, 0o770)

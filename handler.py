@@ -1,12 +1,17 @@
 import json
 import common, downloader
 from helpers import packet_type as PacketType
+from helpers import api_helper as api
+from objects import glob
 
 async def onConnect(data):
 	await common.send_packet(PacketType.cli_subscribe, [])
 
 async def onScore(data):
-	await downloader.replay(data["id"])
+	replay = await downloader.replay(data["id"])
+
+	beatmap_info = await api.get_beatmaps("h", data["beatmap_md5"], glob.config["prefer_cheesegull"])
+	beatmap = await downloader.beatmap_id(beatmap_info["id"])
 	# TODO: Runs scanners etc..
 
 async def onError(data):
